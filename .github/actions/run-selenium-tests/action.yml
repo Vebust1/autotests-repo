@@ -1,0 +1,26 @@
+name: "Run Selenium Tests"
+description: "Запускает автотесты Selenium для фронтенда"
+inputs:
+  frontend-url:
+    description: "URL фронтенда для тестирования"
+    required: true
+    default: "http://localhost:3000"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout autotests repo
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.13.5"
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+
+    - name: Run tests
+      run: pytest tests/ --frontend-url=${{ inputs.frontend-url }}
+      shell: bash
