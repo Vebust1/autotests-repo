@@ -1,0 +1,24 @@
+name: 'Selenium Test Action'
+description: 'Runs Selenium tests'
+
+inputs:
+  frontend-url:
+    description: 'URL to test'
+    required: true
+    default: 'http://localhost:3000'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+
+    - name: Run tests
+      run: pytest tests/ --frontend-url=${{ inputs.frontend-url }}
+      shell: bash
